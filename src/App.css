@@ -1,0 +1,64 @@
+/*reset*/
+* {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+}
+
+/* Stile del titolo */
+h1 {
+  text-align: center;
+  font-family: sans-serif;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+/* Container che avvolge tutte le card */
+/* Usiamo Flexbox per metterle una di fianco all'altra e farle andare a capo */
+.App {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* La singola Card */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 300px;
+  border-radius: 10px;
+  overflow: hidden; /* Taglia l'immagine se sporge dagli angoli arrotondati */
+  background-color: white;
+  font-family: sans-serif;
+}
+
+/* Effetto al passaggio del mouse */
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3);
+  transform: translateY(-5px);
+}
+
+/* Immagine del politico */
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover; /* Mantiene le proporzioni senza schiacciare l'immagine */
+}
+
+/* Contenitore del testo */
+.container {
+  padding: 15px;
+}
+
+.container h4 {
+  margin: 0 0 10px 0;
+  color: #2c3e50;
+}
+
+.container p {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
