@@ -1,9 +1,9 @@
+import { use } from 'react';
 import './App.css'
 import { useState, useEffect, useMemo, memo } from 'react'
 
 const Card = memo(({ name, image, position, biography }) => {
-  console.log('render del politico:', name);
-
+  console.log('render del politico:');
   return (
     <div className='card'>
       <img src={image} alt={name} />
@@ -16,7 +16,6 @@ const Card = memo(({ name, image, position, biography }) => {
   )
 })
 
-
 function App() {
 
   //var di stato politici
@@ -24,6 +23,9 @@ function App() {
 
   //var di stato per la parola cercata
   const [serchTerm, setSearchTerm] = useState('')
+
+  //var di stato per posizine selezionata
+  const [selectedPos, setSelecetePos] = useState('')
 
   //useeffect per fare chiamata api al montaggio del componente
   useEffect(() => {
@@ -38,16 +40,24 @@ function App() {
   const filteredPoliticians = useMemo(() => {
     //normalizzo in minuscolo e tolgo spazi
     const normTerm = serchTerm.toLowerCase()
+
     //filtro array di partenza
     return (politicians.filter(p => {
+      //la posizione e valida
+      const isValidPos = selectedPos === "" || selectedPos === p.position
       return (
-        p.name.toLowerCase().includes(normTerm) ||
-        p.position.toLowerCase().includes(normTerm)
-
+        (p.name.toLowerCase().includes(normTerm) ||
+        p.position.toLowerCase().includes(normTerm)) &&
+        isValidPos
       )
     }
     ))
-  }, [politicians, serchTerm])
+  }, [politicians, serchTerm, selectedPos])
+
+  const allPosition = useMemo(() => {
+    const position = [...new Set(politicians.map(p => p.position))]
+    return position
+  }, [politicians])
 
   return (<>
     <h1>lista politci</h1>
@@ -55,6 +65,10 @@ function App() {
       placeholder='inserisci nome o posizine'
       value={serchTerm}
       onChange={e => setSearchTerm(e.target.value)} />
+    <select value={selectedPos} onChange={e => setSelecetePos(e.target.value)}>
+      <option >tutte le posizioni</option>
+      {allPosition.map((pos, i) => (<option key={i} value={pos}>{pos}</option>))}
+    </select>
     <div className='App'>
       {filteredPoliticians.map(p => (
         <Card key={p.id} {...p} />))}
